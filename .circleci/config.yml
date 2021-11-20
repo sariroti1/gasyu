@@ -4,13 +4,13 @@ jobs:
     machine:
       image: ubuntu-2004:202010-01
     resource_class: large
-    parallelism: 4
+    parallelism: 10
     steps:
       - checkout
       - run:
           command: |
             echo $(circleci tests glob "foo/**/*" "bar/**/*")
-            circleci tests glob "foo/**/*" "bar/**/*" | xargs -n 1 echo
+            circleci tests glob "**/*.go" | circleci tests split --split-by=timings
 workflows:
   build-workflow:
     jobs:
